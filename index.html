@@ -21,13 +21,14 @@
       --accent-3: #ec4899;
       --shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
       --radius: 22px;
-      --max-width: 1180px;
+      --max-width: 1380px;
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      cursor: none;
     }
 
     html {
@@ -50,27 +51,75 @@
       color: inherit;
     }
 
+    button, video {
+      cursor: none;
+    }
+
     img {
       max-width: 100%;
       display: block;
     }
 
     .container {
-      width: min(var(--max-width), calc(100% - 32px));
+      width: min(var(--max-width), calc(100% - 48px));
       margin: 0 auto;
     }
 
-    /* floating background */
+    .cursor-dot,
+    .cursor-ring {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .cursor-dot {
+      width: 10px;
+      height: 10px;
+      background: #fff;
+    }
+
+    .cursor-ring {
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(255,255,255,0.45);
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(4px);
+      transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .cursor-ring.active {
+      width: 56px;
+      height: 56px;
+      border-color: rgba(124,58,237,0.8);
+      background: rgba(124,58,237,0.12);
+    }
+
     .bg-blur {
       position: fixed;
       inset: auto;
-      width: 260px;
-      height: 260px;
+      width: 320px;
+      height: 320px;
       border-radius: 50%;
-      filter: blur(70px);
+      filter: blur(80px);
       opacity: 0.45;
-      z-index: -1;
+      z-index: -2;
       animation: floatBlob 10s ease-in-out infinite;
+    }
+
+    .mouse-glow {
+      position: fixed;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+      background: radial-gradient(circle, rgba(124,58,237,0.14), rgba(6,182,212,0.08), transparent 65%);
+      filter: blur(25px);
+      transform: translate(-50%, -50%);
     }
 
     .blob-1 {
@@ -98,7 +147,6 @@
       50% { transform: translateY(-24px) scale(1.08); }
     }
 
-    /* nav */
     .nav-wrap {
       position: sticky;
       top: 14px;
@@ -111,27 +159,27 @@
       align-items: center;
       justify-content: space-between;
       gap: 20px;
-      padding: 14px 18px;
+      padding: 18px 24px;
       background: rgba(15, 23, 42, 0.65);
       border: 1px solid rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(18px);
-      border-radius: 18px;
+      border-radius: 22px;
       box-shadow: var(--shadow);
     }
 
     .logo {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       font-weight: 800;
       letter-spacing: 0.5px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .logo-badge {
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
       display: grid;
       place-items: center;
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
@@ -140,7 +188,7 @@
 
     .nav-links {
       display: flex;
-      gap: 22px;
+      gap: 24px;
       align-items: center;
       flex-wrap: wrap;
     }
@@ -148,7 +196,7 @@
     .nav-links a {
       color: var(--muted);
       transition: 0.3s ease;
-      font-size: 0.95rem;
+      font-size: 1rem;
     }
 
     .nav-links a:hover {
@@ -161,11 +209,12 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      padding: 14px 22px;
+      padding: 16px 28px;
       border-radius: 999px;
       font-weight: 700;
       transition: 0.3s ease;
       border: 1px solid transparent;
+      font-size: 1rem;
     }
 
     .btn-primary {
@@ -190,15 +239,17 @@
       background: rgba(255, 255, 255, 0.09);
     }
 
-    /* hero */
     .hero {
-      padding: 70px 0 40px;
+      padding: 90px 0 70px;
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.08fr 0.92fr;
-      gap: 34px;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 48px;
       align-items: center;
     }
 
@@ -206,22 +257,23 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      padding: 9px 14px;
+      padding: 10px 16px;
       border-radius: 999px;
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.1);
       color: #cbd5e1;
-      font-size: 0.9rem;
-      margin-bottom: 18px;
+      font-size: 1rem;
+      margin-bottom: 22px;
       animation: fadeUp 0.8s ease both;
     }
 
     .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-size: clamp(3.3rem, 7vw, 6.8rem);
       line-height: 0.95;
-      letter-spacing: -2px;
-      margin-bottom: 18px;
+      letter-spacing: -2.5px;
+      margin-bottom: 22px;
       animation: fadeUp 0.9s ease both;
+      max-width: 760px;
     }
 
     .gradient-text {
@@ -233,57 +285,61 @@
 
     .hero p {
       color: var(--muted);
-      font-size: 1.08rem;
-      max-width: 620px;
-      margin-bottom: 26px;
+      font-size: 1.18rem;
+      max-width: 720px;
+      margin-bottom: 32px;
       animation: fadeUp 1s ease both;
+      line-height: 1.7;
     }
 
     .hero-actions {
       display: flex;
-      gap: 14px;
+      gap: 16px;
       flex-wrap: wrap;
-      margin-bottom: 28px;
+      margin-bottom: 34px;
       animation: fadeUp 1.1s ease both;
     }
 
     .hero-stats {
       display: flex;
-      gap: 16px;
+      gap: 18px;
       flex-wrap: wrap;
       animation: fadeUp 1.2s ease both;
     }
 
     .stat {
-      min-width: 145px;
-      padding: 16px 18px;
-      border-radius: 18px;
+      min-width: 165px;
+      padding: 18px 20px;
+      border-radius: 20px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(16px);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      will-change: transform;
     }
 
     .stat strong {
       display: block;
       font-size: 1.4rem;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .stat span {
       color: var(--muted);
-      font-size: 0.92rem;
+      font-size: 0.96rem;
     }
 
-    /* hero card */
     .hero-card {
       position: relative;
       background: linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.04));
       border: 1px solid var(--card-border);
-      border-radius: 30px;
-      padding: 22px;
+      border-radius: 34px;
+      padding: 26px;
       box-shadow: var(--shadow);
       overflow: hidden;
       animation: floatCard 5s ease-in-out infinite, fadeIn 1.2s ease both;
+      transition: transform 0.18s ease;
+      will-change: transform;
     }
 
     .hero-card::before {
@@ -302,7 +358,7 @@
     }
 
     .screen {
-      border-radius: 22px;
+      border-radius: 24px;
       overflow: hidden;
       background: #020617;
       border: 1px solid rgba(255, 255, 255, 0.08);
@@ -324,14 +380,14 @@
     }
 
     .screen-body {
-      padding: 18px;
+      padding: 22px;
       display: grid;
-      gap: 16px;
+      gap: 18px;
     }
 
     .video-preview {
-      height: 210px;
-      border-radius: 18px;
+      height: 280px;
+      border-radius: 22px;
       background:
         linear-gradient(135deg, rgba(124,58,237,0.55), rgba(6,182,212,0.25)),
         url("https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80") center/cover;
@@ -343,8 +399,8 @@
       position: absolute;
       inset: 0;
       margin: auto;
-      width: 78px;
-      height: 78px;
+      width: 86px;
+      height: 86px;
       border-radius: 50%;
       display: grid;
       place-items: center;
@@ -352,15 +408,16 @@
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255,255,255,0.25);
       animation: pulse 2s infinite;
+      font-size: 1.2rem;
     }
 
     .timeline {
       display: grid;
-      gap: 10px;
+      gap: 12px;
     }
 
     .bar {
-      height: 12px;
+      height: 13px;
       border-radius: 999px;
       background: rgba(255,255,255,0.08);
       overflow: hidden;
@@ -382,7 +439,7 @@
 
     .floating-mini {
       position: absolute;
-      padding: 14px 16px;
+      padding: 16px 18px;
       border-radius: 18px;
       background: rgba(15, 23, 42, 0.78);
       border: 1px solid rgba(255,255,255,0.12);
@@ -392,13 +449,13 @@
     }
 
     .mini-1 {
-      top: 14px;
-      right: 10px;
+      top: 18px;
+      right: 12px;
     }
 
     .mini-2 {
-      left: -10px;
-      bottom: 28px;
+      left: -8px;
+      bottom: 32px;
       animation-delay: 1.5s;
     }
 
@@ -413,32 +470,32 @@
       font-size: 0.88rem;
     }
 
-    /* sections */
     section {
-      padding: 90px 0 10px;
+      padding: 110px 0 30px;
     }
 
     .section-head {
       text-align: center;
-      max-width: 760px;
-      margin: 0 auto 34px;
+      max-width: 860px;
+      margin: 0 auto 44px;
     }
 
     .section-head h2 {
-      font-size: clamp(2rem, 4vw, 3rem);
-      margin-bottom: 12px;
-      letter-spacing: -1px;
+      font-size: clamp(2.4rem, 4.5vw, 4rem);
+      margin-bottom: 14px;
+      letter-spacing: -1.2px;
     }
 
     .section-head p {
       color: var(--muted);
-      font-size: 1rem;
+      font-size: 1.1rem;
+      line-height: 1.7;
     }
 
     .grid-3,
     .grid-4 {
       display: grid;
-      gap: 22px;
+      gap: 24px;
     }
 
     .grid-3 {
@@ -453,88 +510,133 @@
       background: var(--card);
       border: 1px solid var(--card-border);
       border-radius: var(--radius);
-      padding: 24px;
+      padding: 28px;
       backdrop-filter: blur(16px);
       box-shadow: var(--shadow);
-      transition: 0.35s ease;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      position: relative;
+      overflow: hidden;
+      will-change: transform;
     }
 
-    .card:hover {
-      transform: translateY(-8px);
-      border-color: rgba(255,255,255,0.24);
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.08), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.8s ease;
+    }
+
+    .card:hover::before {
+      transform: translateX(100%);
     }
 
     .icon-box {
-      width: 58px;
-      height: 58px;
+      width: 64px;
+      height: 64px;
       display: grid;
       place-items: center;
-      border-radius: 16px;
-      margin-bottom: 18px;
+      border-radius: 18px;
+      margin-bottom: 20px;
       background: linear-gradient(135deg, rgba(124,58,237,0.25), rgba(6,182,212,0.25));
       border: 1px solid rgba(255,255,255,0.12);
-      font-size: 1.4rem;
+      font-size: 1.55rem;
     }
 
     .card h3 {
-      margin-bottom: 10px;
-      font-size: 1.2rem;
+      margin-bottom: 12px;
+      font-size: 1.28rem;
     }
 
     .card p {
       color: var(--muted);
-      font-size: 0.97rem;
+      font-size: 1rem;
+      line-height: 1.7;
     }
 
-    /* portfolio */
-    .portfolio-card {
-      position: relative;
-      min-height: 300px;
-      overflow: hidden;
-      padding: 0;
-    }
-
-    .portfolio-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s ease;
-    }
-
-    .portfolio-card:hover img {
-      transform: scale(1.08);
-    }
-
-    .portfolio-overlay {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: end;
-      padding: 24px;
-      background: linear-gradient(to top, rgba(2,6,23,0.95), rgba(2,6,23,0.2), transparent);
-    }
-
-    .tag {
+    .coming-soon {
       display: inline-block;
-      padding: 8px 12px;
+      margin-top: 10px;
+      padding: 8px 14px;
       border-radius: 999px;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       font-weight: 700;
-      margin-bottom: 10px;
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.16);
-      color: white;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #dbeafe;
     }
 
-    /* process */
+    .video-track {
+      display: flex;
+      gap: 24px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 14px 4px 20px;
+      width: 100%;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      cursor: grab;
+      scroll-snap-type: x mandatory;
+      user-select: none;
+    }
+
+    .video-track:active {
+      cursor: grabbing;
+    }
+
+    .video-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .video-track video {
+      width: 260px;
+      height: 460px;
+      object-fit: cover;
+      border-radius: 22px;
+      flex-shrink: 0;
+      background: #000;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: var(--shadow);
+      scroll-snap-align: start;
+      transition: transform 0.18s ease;
+      will-change: transform;
+    }
+
+    .price-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+    }
+
+    .price-amount {
+      font-size: 2rem;
+      font-weight: 800;
+      margin: 10px 0 16px;
+      background: linear-gradient(135deg, #fff, #9ae6ff, #d8b4fe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .price-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .price-list span {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
     .step {
       position: relative;
       padding-top: 14px;
     }
 
     .step-number {
-      width: 50px;
-      height: 50px;
+      width: 56px;
+      height: 56px;
       display: grid;
       place-items: center;
       border-radius: 50%;
@@ -542,13 +644,13 @@
       margin-bottom: 18px;
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
       box-shadow: 0 12px 25px rgba(124,58,237,0.28);
+      font-size: 1.1rem;
     }
 
-    /* testimonials */
     .quote {
-      font-size: 1.05rem;
+      font-size: 1.08rem;
       margin-bottom: 18px;
-      line-height: 1.7;
+      line-height: 1.8;
     }
 
     .person {
@@ -558,8 +660,8 @@
     }
 
     .avatar {
-      width: 46px;
-      height: 46px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       display: grid;
       place-items: center;
@@ -570,15 +672,14 @@
     .person span {
       display: block;
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.92rem;
       margin-top: 2px;
     }
 
-    /* cta */
     .cta-box {
-      margin-top: 80px;
-      padding: 34px;
-      border-radius: 30px;
+      margin-top: 90px;
+      padding: 42px;
+      border-radius: 34px;
       background:
         linear-gradient(135deg, rgba(124,58,237,0.25), rgba(6,182,212,0.18)),
         rgba(255,255,255,0.05);
@@ -590,24 +691,25 @@
     }
 
     .cta-box h2 {
-      font-size: clamp(2rem, 4vw, 3rem);
-      margin-bottom: 12px;
+      font-size: clamp(2.2rem, 4vw, 3.6rem);
+      margin-bottom: 14px;
     }
 
     .cta-box p {
       color: #dbeafe;
-      max-width: 680px;
-      margin: 0 auto 24px;
+      max-width: 760px;
+      margin: 0 auto 26px;
+      line-height: 1.7;
+      font-size: 1.08rem;
     }
 
-    /* footer */
     footer {
-      padding: 40px 0 60px;
+      padding: 50px 0 70px;
       color: var(--muted);
       text-align: center;
+      font-size: 1rem;
     }
 
-    /* reveal animations */
     .reveal {
       opacity: 0;
       transform: translateY(30px);
@@ -619,7 +721,6 @@
       transform: translateY(0);
     }
 
-    /* keyframes */
     @keyframes fadeUp {
       from {
         opacity: 0;
@@ -657,16 +758,11 @@
       100% { width: 78%; }
     }
 
-    /* responsive */
-    @media (max-width: 980px) {
+    @media (max-width: 1100px) {
       .hero-grid,
       .grid-3,
       .grid-4 {
         grid-template-columns: 1fr 1fr;
-      }
-
-      .hero-grid {
-        gap: 28px;
       }
 
       .nav-links {
@@ -675,6 +771,20 @@
     }
 
     @media (max-width: 700px) {
+      * {
+        cursor: auto;
+      }
+
+      .cursor-dot,
+      .cursor-ring,
+      .mouse-glow {
+        display: none;
+      }
+
+      .container {
+        width: min(var(--max-width), calc(100% - 26px));
+      }
+
       .hero-grid,
       .grid-3,
       .grid-4 {
@@ -682,7 +792,9 @@
       }
 
       .hero {
-        padding-top: 40px;
+        min-height: auto;
+        padding-top: 50px;
+        padding-bottom: 40px;
       }
 
       .navbar {
@@ -709,70 +821,87 @@
       }
 
       .video-preview {
-        height: 180px;
+        height: 220px;
+      }
+
+      .video-track video {
+        width: 210px;
+        height: 370px;
+      }
+
+      section {
+        padding: 85px 0 20px;
+      }
+
+      .cta-box {
+        padding: 28px 20px;
       }
     }
   </style>
 </head>
 <body>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="mouse-glow" id="mouseGlow"></div>
+
   <div class="bg-blur blob-1"></div>
   <div class="bg-blur blob-2"></div>
   <div class="bg-blur blob-3"></div>
 
   <div class="container nav-wrap">
     <nav class="navbar">
-      <a href="#" class="logo">
+      <a href="#" class="logo magnetic">
         <span class="logo-badge">▶</span>
         Storyvex Edit
       </a>
 
       <div class="nav-links">
-        <a href="#services">Services</a>
-        <a href="#work">Work</a>
-        <a href="#process">Process</a>
-        <a href="#reviews">Reviews</a>
-        <a href="#contact">Contact</a>
+        <a href="#services" class="magnetic">Services</a>
+        <a href="#about" class="magnetic">About</a>
+        <a href="#work" class="magnetic">Work</a>
+        <a href="#pricing" class="magnetic">Pricing</a>
+        <a href="#reviews" class="magnetic">Reviews</a>
+        <a href="#contact" class="magnetic">Contact</a>
       </div>
 
-      <a href="#contact" class="btn btn-primary">Book a Call</a>
+      <a href="#contact" class="btn btn-primary magnetic">Book a Call</a>
     </nav>
   </div>
 
   <header class="hero">
     <div class="container hero-grid">
       <div>
-        <div class="eyebrow">⚡ Premium video editing for creators and brands</div>
-        <h1>
+        <div class="eyebrow reveal">⚡ Premium video editing for creators and brands</div>
+        <h1 class="reveal">
           We turn raw clips into
           <span class="gradient-text">viral-looking videos</span>
         </h1>
-        <p>
-          Fast edits, bold motion, clean captions, strong hooks, and modern visuals
-          that make your content look expensive and professional.
+        <p class="reveal">
+          Storyvex is a modern editing studio focused on reels, shorts, YouTube edits, and attention-grabbing social media content.
         </p>
 
-        <div class="hero-actions">
-          <a href="#contact" class="btn btn-primary">Start Your Project</a>
-          <a href="#work" class="btn btn-secondary">See Our Work</a>
+        <div class="hero-actions reveal">
+          <a href="#contact" class="btn btn-primary magnetic">Start Your Project</a>
+          <a href="#work" class="btn btn-secondary magnetic">See Our Work</a>
         </div>
 
         <div class="hero-stats">
-          <div class="stat">
-            <strong>500+</strong>
-            <span>Videos delivered</span>
+          <div class="stat magnetic-box reveal">
+            <strong>Premium</strong>
+            <span>Editing style</span>
           </div>
-          <div class="stat">
-            <strong>48 hrs</strong>
-            <span>Fast turnaround</span>
+          <div class="stat magnetic-box reveal">
+            <strong>Fast</strong>
+            <span>Turnaround workflow</span>
           </div>
-          <div class="stat">
-            <strong>4.9/5</strong>
-            <span>Client satisfaction</span>
+          <div class="stat magnetic-box reveal">
+            <strong>Focused</strong>
+            <span>On short-form growth</span>
           </div>
         </div>
       </div>
 
-      <div class="hero-card">
+      <div class="hero-card magnetic-box reveal">
         <div class="screen">
           <div class="screen-top">
             <span class="dot"></span>
@@ -794,13 +923,13 @@
         </div>
 
         <div class="floating-mini mini-1">
-          <strong>+230% Retention</strong>
-          <span>Better hooks & pacing</span>
+          <strong>Attention First</strong>
+          <span>Hooks, pacing, retention</span>
         </div>
 
         <div class="floating-mini mini-2">
-          <strong>Auto Captions</strong>
-          <span>Clean, modern subtitle style</span>
+          <strong>Clean Captions</strong>
+          <span>Modern subtitle style</span>
         </div>
       </div>
     </div>
@@ -816,29 +945,43 @@
       </div>
 
       <div class="grid-4">
-        <div class="card reveal">
+        <div class="card magnetic-box reveal">
           <div class="icon-box">🎬</div>
           <h3>Short Form Editing</h3>
           <p>Reels, Shorts, TikToks, viral cuts, subtitles, punchy zooms, and smooth transitions.</p>
         </div>
 
-        <div class="card reveal">
+        <div class="card magnetic-box reveal">
           <div class="icon-box">📺</div>
           <h3>YouTube Editing</h3>
-          <p>Long-form content with smart pacing, graphics, music, and clean story flow.</p>
+          <p>Long-form content editing service is being prepared.</p>
+          <span class="coming-soon">Coming Soon</span>
         </div>
 
-        <div class="card reveal">
+        <div class="card magnetic-box reveal">
           <div class="icon-box">🎙️</div>
           <h3>Podcast Repurposing</h3>
-          <p>Turn one long recording into many short clips ready for social media growth.</p>
+          <p>Podcast repurposing service will be available soon.</p>
+          <span class="coming-soon">Coming Soon</span>
         </div>
 
-        <div class="card reveal">
+        <div class="card magnetic-box reveal">
           <div class="icon-box">🚀</div>
           <h3>Ad Creatives</h3>
-          <p>High-converting promo videos for brands, products, launches, and marketing campaigns.</p>
+          <p>Brand ad creative and promo editing service is coming soon.</p>
+          <span class="coming-soon">Coming Soon</span>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>About Storyvex</h2>
+        <p>
+          Storyvex is a modern video editing studio focused on creating clean, engaging, high-retention content for creators, brands, and businesses. We specialize in short-form edits, YouTube videos, and social media content designed to keep viewers watching.
+        </p>
       </div>
     </div>
   </section>
@@ -846,43 +989,67 @@
   <section id="work">
     <div class="container">
       <div class="section-head reveal">
-        <h2>Our recent work</h2>
+        <h2>Sample Reels</h2>
         <p>
-          Replace these sample cards later with your real client projects or YouTube links.
+          Swipe left or right to explore 10 short-form edits.
+        </p>
+      </div>
+
+      <div class="video-track reveal" id="videoTrack">
+        <video class="magnetic-box" src="reel1.mp4" controls playsinline preload="metadata"></video>
+        <video class="magnetic-box" src="reel2.mp4" controls playsinline preload="metadata"></video>
+        <video class="magnetic-box" src="reel3.mp4" controls playsinline preload="metadata"></video>
+        <video class="magnetic-box" src="reel4.mp4" controls playsinline preload="metadata"></video>
+        <video class="magnetic-box" src="reel5.mp4" controls playsinline preload="metadata"></video>
+        <video class="magnetic-box" src="reel6.mp4" controls playsinline preload="metadata"></video>
+        <video class="magnetic-box" src="reel7.mp4" controls playsinline preload="metadata"></video>
+        <video class="magnetic-box" src="reel8.mp4" controls playsinline preload="metadata"></video>
+        <video class="magnetic-box" src="reel9.mp4" controls playsinline preload="metadata"></video>
+        <video class="magnetic-box" src="reel10.mp4" controls playsinline preload="metadata"></video>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="container">
+      <div class="section-head reveal">
+        <h2>Pricing</h2>
+        <p>
+          Straight pricing for short-form edits.
         </p>
       </div>
 
       <div class="grid-3">
-        <div class="card portfolio-card reveal">
-          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80" alt="Creator editing project">
-          <div class="portfolio-overlay">
-            <div>
-              <span class="tag">Creator Growth</span>
-              <h3>Fitness Coach Content Pack</h3>
-              <p>30 short-form edits with captions, hooks, and motion graphics.</p>
-            </div>
+        <div class="card price-card magnetic-box reveal">
+          <h3>Basic Cut + Captions</h3>
+          <div class="price-amount">₹249</div>
+          <div class="price-list">
+            <span>Per short</span>
+            <span>Clean cuts</span>
+            <span>Basic subtitles</span>
+            <span>Simple pacing</span>
           </div>
         </div>
 
-        <div class="card portfolio-card reveal">
-          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80" alt="Business video project">
-          <div class="portfolio-overlay">
-            <div>
-              <span class="tag">Brand Promo</span>
-              <h3>Business Launch Trailer</h3>
-              <p>Fast-paced promo edit designed for ads and landing pages.</p>
-            </div>
+        <div class="card price-card magnetic-box reveal">
+          <h3>Good Editing + Captions + Emojis</h3>
+          <div class="price-amount">₹449</div>
+          <div class="price-list">
+            <span>Per short</span>
+            <span>Better pacing</span>
+            <span>Captions included</span>
+            <span>Emoji style edits</span>
           </div>
         </div>
 
-        <div class="card portfolio-card reveal">
-          <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=1200&q=80" alt="Podcast editing project">
-          <div class="portfolio-overlay">
-            <div>
-              <span class="tag">Podcast Clips</span>
-              <h3>Podcast Repurposing System</h3>
-              <p>Multicam cleanup, shorts, thumbnails, and social-ready cuts.</p>
-            </div>
+        <div class="card price-card magnetic-box reveal">
+          <h3>Advanced</h3>
+          <div class="price-amount">₹799</div>
+          <div class="price-list">
+            <span>Per short</span>
+            <span>Motion graphics</span>
+            <span>Sound effects</span>
+            <span>Premium edit style</span>
           </div>
         </div>
       </div>
@@ -899,19 +1066,19 @@
       </div>
 
       <div class="grid-3">
-        <div class="card step reveal">
+        <div class="card magnetic-box step reveal">
           <div class="step-number">1</div>
           <h3>Send your files</h3>
           <p>You share raw clips, ideas, references, and your goal for the video.</p>
         </div>
 
-        <div class="card step reveal">
+        <div class="card magnetic-box step reveal">
           <div class="step-number">2</div>
           <h3>We edit everything</h3>
           <p>We add pacing, cuts, captions, effects, music, and a premium visual style.</p>
         </div>
 
-        <div class="card step reveal">
+        <div class="card magnetic-box step reveal">
           <div class="step-number">3</div>
           <h3>You post and grow</h3>
           <p>You receive polished videos ready for Instagram, YouTube, TikTok, or ads.</p>
@@ -923,61 +1090,61 @@
   <section id="reviews">
     <div class="container">
       <div class="section-head reveal">
-        <h2>Clients love the results</h2>
+        <h2>Sample Feedback</h2>
         <p>
-          These are sample testimonials. Change them with your real client feedback later.
+          We’re a new editing studio focused on delivering premium quality from day one. Real client feedback will be added here as we grow.
         </p>
       </div>
 
       <div class="grid-3">
-        <div class="card reveal">
+        <div class="card magnetic-box reveal">
           <p class="quote">
-            “My videos instantly started looking more premium. The edits were fast, clean, and super engaging.”
+            “Sample feedback section. Real client reviews will appear here soon.”
           </p>
           <div class="person">
-            <div class="avatar">S</div>
+            <div class="avatar">A</div>
             <div>
-              <strong>Sarah Khan</strong>
-              <span>Fitness Creator</span>
+              <strong>Aryan Mehta</strong>
+              <span>Sample feedback</span>
             </div>
           </div>
         </div>
 
-        <div class="card reveal">
+        <div class="card magnetic-box reveal">
           <p class="quote">
-            “They turned long boring footage into exciting content that actually kept people watching.”
+            “Sample feedback section. Real client reviews will appear here soon.”
           </p>
           <div class="person">
-            <div class="avatar">D</div>
+            <div class="avatar">R</div>
             <div>
-              <strong>Daniel Roy</strong>
-              <span>Business Coach</span>
+              <strong>Riya Sharma</strong>
+              <span>Sample feedback</span>
             </div>
           </div>
         </div>
 
-        <div class="card reveal">
+        <div class="card magnetic-box reveal">
           <p class="quote">
-            “Best editing team I’ve worked with. Smooth communication, quick revisions, and amazing visuals.”
+            “Sample feedback section. Real client reviews will appear here soon.”
           </p>
           <div class="person">
-            <div class="avatar">M</div>
+            <div class="avatar">K</div>
             <div>
-              <strong>Mike Joseph</strong>
-              <span>Podcast Host</span>
+              <strong>Karan Verma</strong>
+              <span>Sample feedback</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="cta-box reveal" id="contact">
+      <div class="cta-box magnetic-box reveal" id="contact">
         <h2>Ready to make your content look elite?</h2>
         <p>
           Let’s build videos that stop the scroll, keep people watching, and grow your brand faster.
         </p>
         <div class="hero-actions" style="justify-content:center;">
-          <a href="mailto:storyvexedits@gmail.com" class="btn btn-primary">Email Us</a>
-          <a href="https://wa.me/9870010018" class="btn btn-secondary">WhatsApp Us</a>
+          <a href="mailto:storyvexedits@gmail.com" class="btn btn-primary magnetic">Email Us</a>
+          <a href="https://wa.me/919870010018" class="btn btn-secondary magnetic">WhatsApp Us</a>
         </div>
       </div>
     </div>
@@ -985,7 +1152,7 @@
 
   <footer>
     <div class="container">
-      <p>© 2026 Velocity Edit Studio. Built with GitHub Pages.</p>
+      <p>© 2026 Storyvex Edit Studio. Built with GitHub Pages.</p>
     </div>
   </footer>
 
@@ -1001,6 +1168,103 @@
     }, { threshold: 0.15 });
 
     reveals.forEach((item) => observer.observe(item));
+
+    const slider = document.getElementById("videoTrack");
+
+    let isDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+
+    slider.addEventListener("mousedown", (e) => {
+      isDown = true;
+      startX = e.pageX - slider.offsetLeft;
+      scrollLeft = slider.scrollLeft;
+    });
+
+    slider.addEventListener("mouseleave", () => {
+      isDown = false;
+    });
+
+    slider.addEventListener("mouseup", () => {
+      isDown = false;
+    });
+
+    slider.addEventListener("mousemove", (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      slider.scrollLeft = scrollLeft - walk;
+    });
+
+    const cursorDot = document.getElementById("cursorDot");
+    const cursorRing = document.getElementById("cursorRing");
+    const mouseGlow = document.getElementById("mouseGlow");
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let ringX = mouseX;
+    let ringY = mouseY;
+
+    window.addEventListener("mousemove", (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      cursorDot.style.left = mouseX + "px";
+      cursorDot.style.top = mouseY + "px";
+
+      mouseGlow.style.left = mouseX + "px";
+      mouseGlow.style.top = mouseY + "px";
+    });
+
+    function animateRing() {
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      cursorRing.style.left = ringX + "px";
+      cursorRing.style.top = ringY + "px";
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    const hoverItems = document.querySelectorAll("a, button, .card, .stat, video, .magnetic, .magnetic-box");
+
+    hoverItems.forEach((item) => {
+      item.addEventListener("mouseenter", () => {
+        cursorRing.classList.add("active");
+      });
+
+      item.addEventListener("mouseleave", () => {
+        cursorRing.classList.remove("active");
+      });
+    });
+
+    const magneticItems = document.querySelectorAll(".magnetic");
+    magneticItems.forEach((item) => {
+      item.addEventListener("mousemove", (e) => {
+        const rect = item.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        item.style.transform = `translate(${x * 0.08}px, ${y * 0.08}px)`;
+      });
+
+      item.addEventListener("mouseleave", () => {
+        item.style.transform = "";
+      });
+    });
+
+    const magneticBoxes = document.querySelectorAll(".magnetic-box");
+    magneticBoxes.forEach((box) => {
+      box.addEventListener("mousemove", (e) => {
+        const rect = box.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        box.style.transform = `translate(${x * 0.04}px, ${y * 0.04}px)`;
+      });
+
+      box.addEventListener("mouseleave", () => {
+        box.style.transform = "";
+      });
+    });
   </script>
 </body>
 </html>
